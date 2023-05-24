@@ -2,19 +2,24 @@
 
 const useState = React.useState;
 
-const App = () => {
-  // const [text, setText] = useState("");
-  const [memos, setMemos] = useState([
-    { id: 1, content: "aaa" },
-    { id: 2, content: "bbb" },
-    { id: 3, content: "ccc" },
-  ]);
+const Form = () => {
+  const [text, setText] = useState("hello");
+  const [memos, setMemos] = useState(initialData);
+
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+
+  const handleCreate = (content) => {
+    setMemos([...memos, { id: memos.length + 1, content: content }]);
+  };
 
   return (
-    <React.Fragment>
+    <div>
+      <input value={text} onChange={handleChange}></input>
+      <button onClick={() => handleCreate(text)}>登録</button>
       <Memo memos={memos} />
-      <Form />
-    </React.Fragment>
+    </div>
   );
 };
 
@@ -34,18 +39,15 @@ const Memo = (props) => {
   );
 };
 
-const Form = () => {
-  return (
-    <div>
-      <input></input>
-      <button>登録</button>
-    </div>
-  );
-};
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Form />
   </React.StrictMode>
 );
+
+const initialData = [
+  { id: 1, content: "aaa" },
+  { id: 2, content: "bbb" },
+  { id: 3, content: "ccc" },
+];
