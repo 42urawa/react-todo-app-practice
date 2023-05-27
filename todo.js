@@ -4,7 +4,11 @@ const useState = React.useState;
 
 const Form = () => {
   const [text, setText] = useState("");
-  const [memos, setMemos] = useState(initialData);
+  const [memos, setMemos] = useState(
+    JSON.parse(localStorage.getItem("todos")) || []
+  );
+  // const [memos, setMemos] = useState([]);
+  // const [memos, setMemos] = useState(initialData);
   const [editText, setEditText] = useState("");
 
   const handleChange = (e) => {
@@ -19,6 +23,13 @@ const Form = () => {
       ...memos,
       { id: maxId + 1, content: content, isEditable: false },
     ]);
+    localStorage.setItem(
+      "todos",
+      JSON.stringify([
+        ...memos,
+        { id: maxId + 1, content: content, isEditable: false },
+      ])
+    );
   };
 
   const handleEdit = (memoId) => {
@@ -32,10 +43,12 @@ const Form = () => {
   const handleDelete = (memoId) => {
     const newMemos = memos.filter((memo) => memo.id !== memoId);
     setMemos(newMemos);
+    localStorage.setItem("todos", JSON.stringify(newMemos));
   };
 
   return (
     <div>
+      {localStorage.getItem("todos")}
       <input value={text} onChange={handleChange}></input>
       <button onClick={() => handleCreate(text)}>登録</button>
       <div>
@@ -56,6 +69,7 @@ const Form = () => {
                   }
                 });
                 setMemos(editedMemos);
+                localStorage.setItem("todos", JSON.stringify(editedMemos));
               }}
               onEdit={() => handleEdit(memo.id)}
               onDelete={() => handleDelete(memo.id)}
