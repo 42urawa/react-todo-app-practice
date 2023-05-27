@@ -5,6 +5,7 @@ const useState = React.useState;
 const Form = () => {
   const [text, setText] = useState("");
   const [memos, setMemos] = useState(initialData);
+  const [editText, setEditText] = useState("");
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -12,11 +13,18 @@ const Form = () => {
 
   const handleCreate = (content) => {
     const memoIds = memos.map((memo) => memo.id);
-    setMemos([...memos, { id: Math.max(...memoIds) + 1, content: content }]);
+    setMemos([
+      ...memos,
+      { id: Math.max(...memoIds) + 1, content: content, isEditable: false },
+    ]);
   };
 
-  const handleEdit = () => {
-    console.log("hi");
+  const handleEdit = (memoId) => {
+    const editableMemos = memos.map((memo) => {
+      if (memo.id === memoId) setEditText(memo.content);
+      return { ...memo, isEditable: memo.id === memoId };
+    });
+    setMemos(editableMemos);
   };
 
   const handleDelete = (memoId) => {
@@ -33,7 +41,21 @@ const Form = () => {
           return (
             <Memo
               memo={memo}
-              onEdit={handleEdit}
+              a={(e) => {
+                setEditText(e.target.value);
+              }}
+              t={editText}
+              b={() => {
+                const editedMemos = memos.map((memo) => {
+                  if (memo.isEditable) {
+                    return { ...memo, isEditable: false, content: editText };
+                  } else {
+                    return { ...memo };
+                  }
+                });
+                setMemos(editedMemos);
+              }}
+              onEdit={() => handleEdit(memo.id)}
               onDelete={() => handleDelete(memo.id)}
             />
           );
@@ -45,10 +67,20 @@ const Form = () => {
 
 const Memo = (props) => {
   return (
-    <div key={props.memo.id} className="memo-container">
-      <p>{props.memo.content}</p>
-      <button onClick={props.onEdit}>編集</button>
-      <button onClick={props.onDelete}>削除</button>
+    <div key={props.memo.id}>
+      {props.memo.isEditable ? (
+        <div>
+          <input value={props.t} onChange={props.a} />
+          <br></br>
+          <button onClick={props.b}>更新</button>
+        </div>
+      ) : (
+        <div>
+          <p>{props.memo.content}</p>
+          <button onClick={props.onEdit}>編集</button>
+          <button onClick={props.onDelete}>削除</button>
+        </div>
+      )}
     </div>
   );
 };
@@ -61,7 +93,7 @@ root.render(
 );
 
 const initialData = [
-  { id: 1, content: "aaa" },
-  { id: 2, content: "bbb" },
-  { id: 3, content: "ccc" },
+  { id: 1, content: "ギャルのパンティもらう", isEditable: false },
+  { id: 2, content: "タオパイパイを倒す", isEditable: false },
+  { id: 3, content: "クリリンを生き返らせる", isEditable: false },
 ];
