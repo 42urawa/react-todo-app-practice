@@ -12,10 +12,12 @@ const Form = () => {
   };
 
   const handleCreate = (content) => {
-    const memoIds = memos.map((memo) => memo.id);
+    const maxId = memos
+      .map((memo) => memo.id)
+      .reduce((a, b) => Math.max(a, b), 0);
     setMemos([
       ...memos,
-      { id: Math.max(...memoIds) + 1, content: content, isEditable: false },
+      { id: maxId + 1, content: content, isEditable: false },
     ]);
   };
 
