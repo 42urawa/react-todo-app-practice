@@ -10,6 +10,7 @@ const Form = () => {
   const [editText, setEditText] = useState("");
 
   const handleCreate = (content) => {
+    setCreateText("");
     const maxId = todos
       .map((todo) => todo.id)
       .reduce((a, b) => Math.max(a, b), 0);
@@ -32,6 +33,13 @@ const Form = () => {
       return { ...todo, isEditable: todo.id === todoId };
     });
     setTodos(editableTodos);
+  };
+
+  const handleCancel = () => {
+    const cancelTodos = todos.map((todo) => {
+      return { ...todo, isEditable: false };
+    });
+    setTodos(cancelTodos);
   };
 
   const handleUpdate = () => {
@@ -68,6 +76,7 @@ const Form = () => {
                 setEditText(e.target.value);
               }}
               editText={editText}
+              onCancelClick={handleCancel}
               onUpdateClick={handleUpdate}
               onEditClick={() => handleEdit(todo.id)}
               onDeleteClick={() => handleDelete(todo.id)}
@@ -86,6 +95,7 @@ const Todo = (props) => {
         <div>
           <input value={props.editText} onChange={props.handleUpdateChange} />
           <br></br>
+          <button onClick={props.onCancelClick}>取消</button>
           <button onClick={props.onUpdateClick}>更新</button>
         </div>
       ) : (
