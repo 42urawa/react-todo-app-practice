@@ -3,76 +3,74 @@
 const useState = React.useState;
 
 const Form = () => {
-  const [text, setText] = useState("");
-  const [memos, setMemos] = useState(
+  const [createText, setCreateText] = useState("");
+  const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todos")) || []
   );
-  // const [memos, setMemos] = useState([]);
-  // const [memos, setMemos] = useState(initialData);
   const [editText, setEditText] = useState("");
 
-  const handleChange = (e) => {
-    setText(e.target.value);
-  };
-
   const handleCreate = (content) => {
-    const maxId = memos
-      .map((memo) => memo.id)
+    const maxId = todos
+      .map((todo) => todo.id)
       .reduce((a, b) => Math.max(a, b), 0);
-    setMemos([
-      ...memos,
+    setTodos([
+      ...todos,
       { id: maxId + 1, content: content, isEditable: false },
     ]);
     localStorage.setItem(
       "todos",
       JSON.stringify([
-        ...memos,
+        ...todos,
         { id: maxId + 1, content: content, isEditable: false },
       ])
     );
   };
 
-  const handleEdit = (memoId) => {
-    const editableMemos = memos.map((memo) => {
-      if (memo.id === memoId) setEditText(memo.content);
-      return { ...memo, isEditable: memo.id === memoId };
+  const handleEdit = (todoId) => {
+    const editableTodos = todos.map((todo) => {
+      if (todo.id === todoId) setEditText(todo.content);
+      return { ...todo, isEditable: todo.id === todoId };
     });
-    setMemos(editableMemos);
+    setTodos(editableTodos);
   };
 
-  const handleDelete = (memoId) => {
-    const newMemos = memos.filter((memo) => memo.id !== memoId);
-    setMemos(newMemos);
-    localStorage.setItem("todos", JSON.stringify(newMemos));
+  const handleUpdate = () => {
+    const editedTodos = todos.map((todo) => {
+      if (todo.isEditable) {
+        return { ...todo, isEditable: false, content: editText };
+      } else {
+        return { ...todo };
+      }
+    });
+    setTodos(editedTodos);
+    localStorage.setItem("todos", JSON.stringify(editedTodos));
+  };
+
+  const handleDelete = (todoId) => {
+    const newTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
   return (
     <div>
-      {localStorage.getItem("todos")}
-      <input value={text} onChange={handleChange}></input>
-      <button onClick={() => handleCreate(text)}>登録</button>
+      <input
+        value={createText}
+        onChange={(e) => setCreateText(e.target.value)}
+      ></input>
+      <button onClick={() => handleCreate(createText)}>登録</button>
       <div>
-        {memos.map((memo) => {
+        {todos.map((todo) => {
           return (
-            <Memo
-              memo={memo}
-              a={(e) => {
+            <Todo
+              todo={todo}
+              handleUpdateChange={(e) => {
                 setEditText(e.target.value);
               }}
-              t={editText}
-              b={() => {
-                const editedMemos = memos.map((memo) => {
-                  if (memo.isEditable) {
-                    return { ...memo, isEditable: false, content: editText };
-                  } else {
-                    return { ...memo };
-                  }
-                });
-                setMemos(editedMemos);
-                localStorage.setItem("todos", JSON.stringify(editedMemos));
-              }}
-              onEdit={() => handleEdit(memo.id)}
-              onDelete={() => handleDelete(memo.id)}
+              editText={editText}
+              onUpdateClick={handleUpdate}
+              onEditClick={() => handleEdit(todo.id)}
+              onDeleteClick={() => handleDelete(todo.id)}
             />
           );
         })}
@@ -81,20 +79,20 @@ const Form = () => {
   );
 };
 
-const Memo = (props) => {
+const Todo = (props) => {
   return (
-    <div key={props.memo.id}>
-      {props.memo.isEditable ? (
+    <div key={props.todo.id}>
+      {props.todo.isEditable ? (
         <div>
-          <input value={props.t} onChange={props.a} />
+          <input value={props.editText} onChange={props.handleUpdateChange} />
           <br></br>
-          <button onClick={props.b}>更新</button>
+          <button onClick={props.onUpdateClick}>更新</button>
         </div>
       ) : (
         <div>
-          <p>{props.memo.content}</p>
-          <button onClick={props.onEdit}>編集</button>
-          <button onClick={props.onDelete}>削除</button>
+          <p>{props.todo.content}</p>
+          <button onClick={props.onEditClick}>編集</button>
+          <button onClick={props.onDeleteClick}>削除</button>
         </div>
       )}
     </div>
@@ -107,9 +105,3 @@ root.render(
     <Form />
   </React.StrictMode>
 );
-
-const initialData = [
-  { id: 1, content: "ギャルのパンティもらう", isEditable: false },
-  { id: 2, content: "タオパイパイを倒す", isEditable: false },
-  { id: 3, content: "クリリンを生き返らせる", isEditable: false },
-];
