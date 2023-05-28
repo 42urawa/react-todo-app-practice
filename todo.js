@@ -61,51 +61,67 @@ const Form = () => {
   };
 
   return (
-    <div>
-      <input
-        value={createText}
-        onChange={(e) => setCreateText(e.target.value)}
-      ></input>
-      <button onClick={() => handleCreate(createText)}>登録</button>
-      <div>
-        {todos.map((todo) => {
-          return (
-            <Todo
-              todo={todo}
-              handleUpdateChange={(e) => {
-                setEditText(e.target.value);
-              }}
-              editText={editText}
-              onCancelClick={handleCancel}
-              onUpdateClick={handleUpdate}
-              onEditClick={() => handleEdit(todo.id)}
-              onDeleteClick={() => handleDelete(todo.id)}
-            />
-          );
-        })}
+    <React.Fragment>
+      <h1>
+        <span>オラ</span> の TODO
+      </h1>
+      <div className="container">
+        <div className="create-form-container">
+          <input
+            value={createText}
+            onChange={(e) => setCreateText(e.target.value)}
+          ></input>
+          <button onClick={() => handleCreate(createText)}>登録</button>
+        </div>
+        <div className="todo-container">
+          <ul>
+            {todos.map((todo) => {
+              return (
+                <Todo
+                  todo={todo}
+                  handleUpdateChange={(e) => {
+                    setEditText(e.target.value);
+                  }}
+                  editText={editText}
+                  onCancelClick={handleCancel}
+                  onUpdateClick={handleUpdate}
+                  onEditClick={() => handleEdit(todo.id)}
+                  onDeleteClick={() => handleDelete(todo.id)}
+                />
+              );
+            })}
+          </ul>
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
 const Todo = (props) => {
   return (
-    <div key={props.todo.id}>
+    <li key={props.todo.id}>
       {props.todo.isEditable ? (
-        <div>
-          <input value={props.editText} onChange={props.handleUpdateChange} />
-          <br></br>
-          <button onClick={props.onCancelClick}>取消</button>
-          <button onClick={props.onUpdateClick}>更新</button>
-        </div>
+        <React.Fragment>
+          <div>
+            <input value={props.editText} onChange={props.handleUpdateChange} />
+          </div>
+          <div>
+            <button onClick={props.onCancelClick}>取消</button>
+            <button onClick={props.onUpdateClick}>更新</button>
+          </div>
+        </React.Fragment>
       ) : (
-        <div>
-          <p>{props.todo.content}</p>
-          <button onClick={props.onEditClick}>編集</button>
-          <button onClick={props.onDeleteClick}>削除</button>
-        </div>
+        <React.Fragment>
+          <div>
+            <p>{props.todo.content}</p>
+          </div>
+          <div>
+            <button onClick={props.onEditClick}>編集</button>
+            <button onClick={props.onDeleteClick}>削除</button>
+          </div>
+        </React.Fragment>
       )}
-    </div>
+    </li>
   );
 };
 
