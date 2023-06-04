@@ -37,6 +37,7 @@ h1 > span {
   height: 100px;
   background-color: #4f2222;
 }
+
 input {
   display: block;
   width: 400px;
@@ -73,6 +74,7 @@ li {
   justify-content: space-between;
   background-color: #5f2e2e;
 }
+
 li > div {
   display: flex;
   align-items: center;
