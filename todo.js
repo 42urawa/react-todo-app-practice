@@ -36,20 +36,14 @@ const App = () => {
   };
 
   const handleCancel = () => {
-    const cancelTodos = todos.map((todo) => {
-      return { ...todo, isEditable: false };
-    });
+    const cancelTodos = todos.map((todo) => ({ ...todo, isEditable: false }));
     setTodos(cancelTodos);
   };
 
   const handleUpdate = () => {
-    const editedTodos = todos.map((todo) => {
-      if (todo.isEditable) {
-        return { ...todo, isEditable: false, content: editText };
-      } else {
-        return { ...todo };
-      }
-    });
+    const editedTodos = todos.map((todo) =>
+      todo.isEditable ? { ...todo, isEditable: false, content: editText } : todo
+    );
     setTodos(editedTodos);
     localStorage.setItem("todos", JSON.stringify(editedTodos));
   };
@@ -62,6 +56,14 @@ const App = () => {
 
   return (
     <React.Fragment>
+      <button
+        onClick={() => {
+          alert(localStorage.getItem("todos"));
+        }}
+      >
+        ボタン
+      </button>
+
       <h1>
         <span>オラ</span> の TODO
       </h1>
@@ -75,21 +77,19 @@ const App = () => {
         </div>
         <div className="todo-container">
           <ul>
-            {todos.map((todo) => {
-              return (
-                <Todo
-                  todo={todo}
-                  onUpdateChange={(e) => {
-                    setEditText(e.target.value);
-                  }}
-                  editText={editText}
-                  onCancelClick={handleCancel}
-                  onUpdateClick={handleUpdate}
-                  onEditClick={() => handleEdit(todo.id)}
-                  onDeleteClick={() => handleDelete(todo.id)}
-                />
-              );
-            })}
+            {todos.map((todo) => (
+              <Todo
+                todo={todo}
+                onUpdateChange={(e) => {
+                  setEditText(e.target.value);
+                }}
+                editText={editText}
+                onCancelClick={handleCancel}
+                onUpdateClick={handleUpdate}
+                onEditClick={() => handleEdit(todo.id)}
+                onDeleteClick={() => handleDelete(todo.id)}
+              />
+            ))}
           </ul>
         </div>
       </div>
