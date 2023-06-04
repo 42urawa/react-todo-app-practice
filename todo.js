@@ -9,20 +9,20 @@ const App = () => {
   );
   const [editText, setEditText] = useState("");
 
-  const handleCreate = (content) => {
+  const handleCreate = () => {
     setCreateText("");
     const maxId = todos
       .map((todo) => todo.id)
       .reduce((a, b) => Math.max(a, b), 0);
     setTodos([
       ...todos,
-      { id: maxId + 1, content: content, isEditable: false },
+      { id: maxId + 1, content: createText, isEditable: false },
     ]);
     localStorage.setItem(
       "todos",
       JSON.stringify([
         ...todos,
-        { id: maxId + 1, content: content, isEditable: false },
+        { id: maxId + 1, content: createText, isEditable: false },
       ])
     );
   };
@@ -61,7 +61,7 @@ const App = () => {
           alert(localStorage.getItem("todos"));
         }}
       >
-        ボタン
+        ボタン（あとで消す）
       </button>
 
       <h1>
@@ -72,7 +72,7 @@ const App = () => {
           <Form
             createText={createText}
             onCreateChange={(e) => setCreateText(e.target.value)}
-            onCreateClick={() => handleCreate(createText)}
+            onCreateClick={handleCreate}
           />
         </div>
         <div className="todo-container">
