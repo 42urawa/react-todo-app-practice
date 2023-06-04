@@ -3,26 +3,23 @@
 const useState = React.useState;
 
 const App = () => {
-  const [createText, setCreateText] = useState("");
+  const [newText, setNewText] = useState("");
   const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todos")) || []
   );
   const [editText, setEditText] = useState("");
 
   const handleCreate = () => {
-    setCreateText("");
+    setNewText("");
     const maxId = todos
       .map((todo) => todo.id)
       .reduce((a, b) => Math.max(a, b), 0);
-    setTodos([
-      ...todos,
-      { id: maxId + 1, content: createText, isEditable: false },
-    ]);
+    setTodos([...todos, { id: maxId + 1, content: newText, isEditing: false }]);
     localStorage.setItem(
       "todos",
       JSON.stringify([
         ...todos,
-        { id: maxId + 1, content: createText, isEditable: false },
+        { id: maxId + 1, content: newText, isEditing: false },
       ])
     );
   };
@@ -30,28 +27,28 @@ const App = () => {
   const handleEdit = (todoId) => {
     const editableTodos = todos.map((todo) => {
       if (todo.id === todoId) setEditText(todo.content);
-      return { ...todo, isEditable: todo.id === todoId };
+      return { ...todo, isEditing: todo.id === todoId };
     });
     setTodos(editableTodos);
   };
 
   const handleCancel = () => {
-    const cancelTodos = todos.map((todo) => ({ ...todo, isEditable: false }));
-    setTodos(cancelTodos);
+    const canceledTodos = todos.map((todo) => ({ ...todo, isEditing: false }));
+    setTodos(canceledTodos);
   };
 
   const handleUpdate = () => {
     const editedTodos = todos.map((todo) =>
-      todo.isEditable ? { ...todo, isEditable: false, content: editText } : todo
+      todo.isEditing ? { ...todo, isEditing: false, content: editText } : todo
     );
     setTodos(editedTodos);
     localStorage.setItem("todos", JSON.stringify(editedTodos));
   };
 
   const handleDelete = (todoId) => {
-    const newTodos = todos.filter((todo) => todo.id !== todoId);
-    setTodos(newTodos);
-    localStorage.setItem("todos", JSON.stringify(newTodos));
+    const deletedTodos = todos.filter((todo) => todo.id !== todoId);
+    setTodos(deletedTodos);
+    localStorage.setItem("todos", JSON.stringify(deletedTodos));
   };
 
   return (
@@ -70,8 +67,8 @@ const App = () => {
       <div className="container">
         <div className="form-container">
           <Form
-            createText={createText}
-            onCreateChange={(e) => setCreateText(e.target.value)}
+            newText={newText}
+            onCreateChange={(e) => setNewText(e.target.value)}
             onCreateClick={handleCreate}
           />
         </div>
@@ -97,10 +94,10 @@ const App = () => {
   );
 };
 
-const Form = ({ createText, onCreateChange, onCreateClick }) => {
+const Form = ({ newText, onCreateChange, onCreateClick }) => {
   return (
     <React.Fragment>
-      <input value={createText} onChange={onCreateChange} />
+      <input value={newText} onChange={onCreateChange} />
       <button onClick={onCreateClick}>登録</button>
     </React.Fragment>
   );
@@ -117,7 +114,7 @@ const Todo = ({
 }) => {
   return (
     <li key={todo.id}>
-      {todo.isEditable ? (
+      {todo.isEditing ? (
         <React.Fragment>
           <div>
             <input value={editText} onChange={onUpdateChange} />
