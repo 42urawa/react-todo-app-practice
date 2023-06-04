@@ -97,36 +97,44 @@ const App = () => {
   );
 };
 
-const Form = (props) => {
+const Form = ({ createText, onCreateChange, onCreateClick }) => {
   return (
     <React.Fragment>
-      <input value={props.createText} onChange={props.onCreateChange} />
-      <button onClick={props.onCreateClick}>登録</button>
+      <input value={createText} onChange={onCreateChange} />
+      <button onClick={onCreateClick}>登録</button>
     </React.Fragment>
   );
 };
 
-const Todo = (props) => {
+const Todo = ({
+  todo,
+  editText,
+  onEditClick,
+  onUpdateChange,
+  onUpdateClick,
+  onCancelClick,
+  onDeleteClick,
+}) => {
   return (
-    <li key={props.todo.id}>
-      {props.todo.isEditable ? (
+    <li key={todo.id}>
+      {todo.isEditable ? (
         <React.Fragment>
           <div>
-            <input value={props.editText} onChange={props.onUpdateChange} />
+            <input value={editText} onChange={onUpdateChange} />
           </div>
           <div>
-            <button onClick={props.onCancelClick}>取消</button>
-            <button onClick={props.onUpdateClick}>更新</button>
+            <button onClick={onCancelClick}>取消</button>
+            <button onClick={onUpdateClick}>更新</button>
           </div>
         </React.Fragment>
       ) : (
         <React.Fragment>
           <div>
-            <p>{props.todo.content}</p>
+            <p>{todo.content}</p>
           </div>
           <div>
-            <button onClick={props.onEditClick}>編集</button>
-            <button onClick={props.onDeleteClick}>削除</button>
+            <button onClick={onEditClick}>編集</button>
+            <button onClick={onDeleteClick}>削除</button>
           </div>
         </React.Fragment>
       )}
