@@ -79,7 +79,7 @@ const App = () => {
               return (
                 <Todo
                   todo={todo}
-                  handleUpdateChange={(e) => {
+                  onUpdateChange={(e) => {
                     setEditText(e.target.value);
                   }}
                   editText={editText}
@@ -112,7 +112,7 @@ const Todo = (props) => {
       {props.todo.isEditable ? (
         <React.Fragment>
           <div>
-            <input value={props.editText} onChange={props.handleUpdateChange} />
+            <input value={props.editText} onChange={props.onUpdateChange} />
           </div>
           <div>
             <button onClick={props.onCancelClick}>取消</button>
