@@ -2,7 +2,7 @@
 
 const useState = React.useState;
 
-const Form = () => {
+const App = () => {
   const [createText, setCreateText] = useState("");
   const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todos")) || []
@@ -66,12 +66,12 @@ const Form = () => {
         <span>オラ</span> の TODO
       </h1>
       <div className="container">
-        <div className="create-form-container">
-          <input
-            value={createText}
-            onChange={(e) => setCreateText(e.target.value)}
-          ></input>
-          <button onClick={() => handleCreate(createText)}>登録</button>
+        <div className="form-container">
+          <Form
+            createText={createText}
+            onCreateChange={(e) => setCreateText(e.target.value)}
+            onCreateClick={() => handleCreate(createText)}
+          />
         </div>
         <div className="todo-container">
           <ul>
@@ -93,6 +93,15 @@ const Form = () => {
           </ul>
         </div>
       </div>
+    </React.Fragment>
+  );
+};
+
+const Form = (props) => {
+  return (
+    <React.Fragment>
+      <input value={props.createText} onChange={props.onCreateChange} />
+      <button onClick={props.onCreateClick}>登録</button>
     </React.Fragment>
   );
 };
@@ -128,6 +137,6 @@ const Todo = (props) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Form />
+    <App />
   </React.StrictMode>
 );
