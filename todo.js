@@ -74,6 +74,7 @@ const App = () => {
           <ul>
             {todos.map((todo) => (
               <Todo
+                key={todo.id}
                 todo={todo}
                 onUpdateChange={(e) => {
                   setEditText(e.target.value);
@@ -111,7 +112,7 @@ const Todo = ({
   onDeleteClick,
 }) => {
   return (
-    <li key={todo.id}>
+    <li>
       {todo.isEditing ? (
         <React.Fragment>
           <div>
