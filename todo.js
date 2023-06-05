@@ -11,9 +11,7 @@ const App = () => {
 
   const handleCreate = () => {
     setNewText("");
-    const maxId = todos
-      .map((todo) => todo.id)
-      .reduce((a, b) => Math.max(a, b), 0);
+    const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
     setTodos([...todos, { id: maxId + 1, content: newText, isEditing: false }]);
     localStorage.setItem(
       "todos",
