@@ -23,11 +23,12 @@ const App = () => {
   };
 
   const handleEdit = (todoId) => {
-    const editableTodos = todos.map((todo) => {
-      if (todo.id === todoId) setEditText(todo.content);
-      return { ...todo, isEditing: todo.id === todoId };
-    });
-    setTodos(editableTodos);
+    const editingTodos = todos.map((todo) => ({
+      ...todo,
+      isEditing: todo.id === todoId,
+    }));
+    setEditText(todos.find((todo) => todo.id === todoId).content);
+    setTodos(editingTodos);
   };
 
   const handleCancel = () => {
