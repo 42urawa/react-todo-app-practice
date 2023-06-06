@@ -37,6 +37,9 @@ const App = () => {
   };
 
   const handleUpdate = () => {
+    if (!editText) {
+      return;
+    }
     const editedTodos = todos.map((todo) =>
       todo.isEditing ? { ...todo, isEditing: false, content: editText } : todo
     );
