@@ -54,14 +54,6 @@ const App = () => {
 
   return (
     <React.Fragment>
-      <button
-        onClick={() => {
-          alert(localStorage.getItem("todos"));
-        }}
-      >
-        ボタン（あとで消す）
-      </button>
-
       <h1>
         <span>オラ</span> の TODO
       </h1>
