@@ -51,11 +51,13 @@ const App = () => {
           {todos.map((todo) => {
             return <Todo todo={todo} onEditClick={() => handleEdit(todo.id)} />;
           })}
-          <li>
-            <div>
-              <button onClick={handleCreate}>＋</button>
-            </div>
-          </li>
+          {todos.find((todo) => todo.isEditable) ? null : (
+            <li>
+              <div>
+                <button onClick={handleCreate}>＋</button>
+              </div>
+            </li>
+          )}
         </ul>
       </div>
       <Form
