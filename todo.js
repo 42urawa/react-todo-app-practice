@@ -1,6 +1,7 @@
 "use strict";
 
 const useState = React.useState;
+const useEffect = React.useEffect;
 
 const App = () => {
   const [newText, setNewText] = useState("");
@@ -10,16 +11,12 @@ const App = () => {
   const [editText, setEditText] = useState("");
 
   const handleCreate = () => {
+    if (!newText) {
+      return;
+    }
     setNewText("");
     const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
     setTodos([...todos, { id: maxId + 1, content: newText, isEditing: false }]);
-    localStorage.setItem(
-      "todos",
-      JSON.stringify([
-        ...todos,
-        { id: maxId + 1, content: newText, isEditing: false },
-      ])
-    );
   };
 
   const handleEdit = (todoId) => {
@@ -44,14 +41,16 @@ const App = () => {
       todo.isEditing ? { ...todo, isEditing: false, content: editText } : todo
     );
     setTodos(editedTodos);
-    localStorage.setItem("todos", JSON.stringify(editedTodos));
   };
 
   const handleDelete = (todoId) => {
     const deletedTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(deletedTodos);
-    localStorage.setItem("todos", JSON.stringify(deletedTodos));
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  });
 
   return (
     <React.Fragment>
