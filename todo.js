@@ -71,9 +71,7 @@ const App = () => {
               <Todo
                 key={todo.id}
                 todo={todo}
-                onUpdateChange={(e) => {
-                  setEditText(e.target.value);
-                }}
+                onUpdateChange={setEditText}
                 editText={editText}
                 onCancelClick={handleCancel}
                 onUpdateClick={handleUpdate}
@@ -106,12 +104,13 @@ const Todo = ({
   onCancelClick,
   onDeleteClick,
 }) => {
+  const handleInputChange = (e) => onUpdateChange(e.target.value);
   return (
     <li>
       {todo.isEditing ? (
         <React.Fragment>
           <div>
-            <input value={editText} onChange={onUpdateChange} />
+            <input value={editText} onChange={handleInputChange} />
           </div>
           <div>
             <button onClick={onCancelClick}>取消</button>
