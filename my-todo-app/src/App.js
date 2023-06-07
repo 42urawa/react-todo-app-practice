@@ -11,9 +11,7 @@ const App = () => {
 
   const handleCreate = () => {
     setText("新規メモ");
-    const maxId = todos
-      .map((todo) => todo.id)
-      .reduce((a, b) => Math.max(a, b), 0);
+    const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
     setTodos([
       ...todos,
       { id: maxId + 1, content: "新規メモ", isEditable: true },
