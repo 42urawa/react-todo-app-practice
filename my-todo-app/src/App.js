@@ -51,7 +51,7 @@ const App = () => {
           {todos.map((todo) => {
             return <Todo todo={todo} onEditClick={() => handleEdit(todo.id)} />;
           })}
-          {todos.find((todo) => todo.isEditable) ? null : (
+          {todos.every((todo) => !todo.isEditable) && (
             <li>
               <div>
                 <button onClick={handleCreate}>＋</button>
