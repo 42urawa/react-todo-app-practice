@@ -61,7 +61,7 @@ const App = () => {
         </ul>
       </div>
       <Form
-        todos={todos}
+        isEditable={todos.some((todo) => todo.isEditable)}
         text={text}
         onUpdateChange={(e) => {
           setText(e.target.value);
