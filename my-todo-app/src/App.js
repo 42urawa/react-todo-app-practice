@@ -14,27 +14,27 @@ const App = () => {
     const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
     setTodos([
       ...todos,
-      { id: maxId + 1, content: "新規メモ", isEditable: true },
+      { id: maxId + 1, content: "新規メモ", isEditing: true },
     ]);
   };
 
   const handleEdit = (todoId) => {
     const editedTodos = todos.map((todo) => {
       if (todo.id === todoId) setText(todo.content);
-      return { ...todo, isEditable: todo.id === todoId };
+      return { ...todo, isEditing: todo.id === todoId };
     });
     setTodos(editedTodos);
   };
 
   const handleUpdate = () => {
     const editedTodos = todos.map((todo) =>
-      todo.isEditable ? { ...todo, isEditable: false, content: text } : todo
+      todo.isEditing ? { ...todo, isEditing: false, content: text } : todo
     );
     setTodos(editedTodos);
   };
 
   const handleDelete = () => {
-    const deletedTodos = todos.filter((todo) => !todo.isEditable);
+    const deletedTodos = todos.filter((todo) => !todo.isEditing);
     setTodos(deletedTodos);
   };
 
@@ -53,16 +53,14 @@ const App = () => {
           リセットボタン
         </button> */}
         <ul>
-          {todos.map((todo) => {
-            return (
-              <Todo
-                key={todo.id}
-                todo={todo}
-                onEditClick={() => handleEdit(todo.id)}
-              />
-            );
-          })}
-          {todos.find((todo) => todo.isEditable) ? null : (
+          {todos.map((todo) => (
+            <Todo
+              key={todo.id}
+              todo={todo}
+              onEditClick={() => handleEdit(todo.id)}
+            />
+          ))}
+          {todos.every((todo) => !todo.isEditing) && (
             <li>
               <div>
                 <button onClick={handleCreate}>＋</button>
@@ -72,7 +70,7 @@ const App = () => {
         </ul>
       </div>
       <Form
-        isEditable={todos.some((todo) => todo.isEditable)}
+        isEditing={todos.some((todo) => todo.isEditing)}
         text={text}
         onUpdateChange={setText}
         onUpdateClick={handleUpdate}
