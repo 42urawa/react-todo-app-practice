@@ -1,7 +1,7 @@
 import "./App.css";
 import Todo from "./Todo.js";
 import Form from "./Form.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [text, setText] = useState("");
@@ -19,37 +19,48 @@ const App = () => {
   };
 
   const handleEdit = (todoId) => {
-    const editableTodos = todos.map((todo) => {
+    const editedTodos = todos.map((todo) => {
       if (todo.id === todoId) setText(todo.content);
       return { ...todo, isEditable: todo.id === todoId };
     });
-    setTodos(editableTodos);
+    setTodos(editedTodos);
   };
 
   const handleUpdate = () => {
-    const editedTodos = todos.map((todo) => {
-      if (todo.isEditable) {
-        return { ...todo, isEditable: false, content: text };
-      } else {
-        return { ...todo };
-      }
-    });
+    const editedTodos = todos.map((todo) =>
+      todo.isEditable ? { ...todo, isEditable: false, content: text } : todo
+    );
     setTodos(editedTodos);
-    localStorage.setItem("todos", JSON.stringify(editedTodos));
   };
 
   const handleDelete = () => {
     const deletedTodos = todos.filter((todo) => !todo.isEditable);
     setTodos(deletedTodos);
-    localStorage.setItem("todos", JSON.stringify(deletedTodos));
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  });
 
   return (
     <>
       <div className="todo-container">
+        {/* <button
+          onClick={() => {
+            localStorage.removeItem("todos");
+          }}
+        >
+          リセットボタン
+        </button> */}
         <ul>
           {todos.map((todo) => {
-            return <Todo todo={todo} onEditClick={() => handleEdit(todo.id)} />;
+            return (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                onEditClick={() => handleEdit(todo.id)}
+              />
+            );
           })}
           {todos.find((todo) => todo.isEditable) ? null : (
             <li>
@@ -61,11 +72,9 @@ const App = () => {
         </ul>
       </div>
       <Form
-        todos={todos}
+        isEditable={todos.some((todo) => todo.isEditable)}
         text={text}
-        onUpdateChange={(e) => {
-          setText(e.target.value);
-        }}
+        onUpdateChange={setText}
         onUpdateClick={handleUpdate}
         onDeleteClick={handleDelete}
       />

@@ -1,13 +1,11 @@
-const Todo = (props) => {
+const Todo = ({ todo, onEditClick }) => {
   return (
-    <li key={props.todo.id}>
-      {props.todo.isEditable ? (
-        <>{props.todo.content.split("\n")[0]}</>
+    <li>
+      {todo.isEditable ? (
+        <>{todo.content.split("\n")[0]}</>
       ) : (
         <>
-          <button onClick={props.onEditClick}>
-            {props.todo.content.split("\n")[0]}
-          </button>
+          <button onClick={onEditClick}>{todo.content.split("\n")[0]}</button>
         </>
       )}
     </li>
