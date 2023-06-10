@@ -14,7 +14,8 @@ const App = () => {
     if (!newText) {
       return;
     }
-    const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
+    const maxId =
+      todos.length === 0 ? 0 : Math.max(...todos.map((todo) => todo.id));
     setTodos([...todos, { id: maxId + 1, content: newText, isEditing: false }]);
     setNewText("");
   };
