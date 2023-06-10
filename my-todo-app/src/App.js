@@ -19,17 +19,21 @@ const App = () => {
   };
 
   const handleEdit = (todoId) => {
-    const editedTodos = todos.map((todo) => {
-      if (todo.id === todoId) setText(todo.content);
-      return { ...todo, isEditing: todo.id === todoId };
-    });
+    const targetTodo = todos.find((todo) => todo.id === todoId);
+    const editedTodos = todos.map((todo) => ({
+      ...todo,
+      isEditing: todo.id === todoId,
+    }));
+    setText(targetTodo.content);
     setTodos(editedTodos);
   };
 
   const handleUpdate = () => {
+    if (!text) return;
     const editedTodos = todos.map((todo) =>
-      todo.isEditing ? { ...todo, isEditing: false, content: text } : todo
+      todo.isEditing ? { ...todo, content: text, isEditing: false } : todo
     );
+    setText("");
     setTodos(editedTodos);
   };
 
