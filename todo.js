@@ -5,10 +5,10 @@ const useEffect = React.useEffect;
 
 const App = () => {
   const [newText, setNewText] = useState("");
+  const [editText, setEditText] = useState("");
   const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todos")) || []
   );
-  const [editText, setEditText] = useState("");
 
   const handleCreate = () => {
     if (!newText) {
