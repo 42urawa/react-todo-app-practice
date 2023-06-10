@@ -39,7 +39,7 @@ const App = () => {
       return;
     }
     const editedTodos = todos.map((todo) =>
-      todo.isEditing ? { ...todo, isEditing: false, content: editText } : todo
+      todo.isEditing ? { ...todo, content: editText, isEditing: false } : todo
     );
     setTodos(editedTodos);
   };
