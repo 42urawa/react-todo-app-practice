@@ -50,7 +50,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-  });
+  }, [todos]);
 
   return (
     <React.Fragment>
