@@ -10,8 +10,8 @@ const App = () => {
   );
 
   const handleCreate = () => {
-    setText("新規メモ");
     const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
+    setText("新規メモ");
     setTodos([
       ...todos,
       { id: maxId + 1, content: "新規メモ", isEditing: true },
@@ -44,7 +44,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-  });
+  }, [todos]);
 
   return (
     <>
