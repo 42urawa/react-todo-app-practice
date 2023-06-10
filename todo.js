@@ -25,8 +25,8 @@ const App = () => {
       ...todo,
       isEditing: todo.id === todoId,
     }));
-    setEditText(todos.find((todo) => todo.id === todoId).content);
     setTodos(editingTodos);
+    setEditText(todos.find((todo) => todo.id === todoId).content);
   };
 
   const handleCancel = () => {
