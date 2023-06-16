@@ -1,10 +1,12 @@
 const Todo = ({ todo, onEditClick }) => (
   <li>
     {todo.isEditing ? (
-      <>{todo.content.split("\n")[0]}</>
+      <div>{todo.content.split("\n")[0]}</div>
     ) : (
       <>
-        <button onClick={onEditClick}>{todo.content.split("\n")[0]}</button>
+        <div onClick={onEditClick} className="todo-button">
+          {todo.content.split("\n")[0]}
+        </div>
       </>
     )}
   </li>

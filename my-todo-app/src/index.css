@@ -38,20 +38,17 @@ code {
   padding: 4px;
 }
 
-.todo-container button {
-  cursor: pointer;
-  background: none;
-  padding: 0;
-  color: #fcecec;
-  border: none;
-  font-size: 24px;
-  font-weight: bold;
-  text-decoration: underline;
-  text-align: start;
-}
-
 .todo-container li:last-child button {
   text-decoration: none;
+}
+
+.todo-button {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.add-button {
+  cursor: pointer;
 }
 
 .edit-container {

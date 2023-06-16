@@ -35,16 +35,14 @@ const App = () => {
     );
     setText("");
     setTodos(editedTodos);
+    localStorage.setItem("todos", JSON.stringify(editedTodos));
   };
 
   const handleDelete = () => {
     const deletedTodos = todos.filter((todo) => !todo.isEditing);
     setTodos(deletedTodos);
+    localStorage.setItem("todos", JSON.stringify(deletedTodos));
   };
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
 
   return (
     <>
@@ -55,6 +53,13 @@ const App = () => {
           }}
         >
           リセットボタン
+        </button> */}
+        {/* <button
+          onClick={() => {
+            window.alert(localStorage.getItem("todos"));
+          }}
+        >
+          状態確認ボタン
         </button> */}
         <ul>
           {todos.map((todo) => (
@@ -67,7 +72,9 @@ const App = () => {
           {todos.every((todo) => !todo.isEditing) && (
             <li>
               <div>
-                <button onClick={handleCreate}>＋</button>
+                <div onClick={handleCreate} className="add-button">
+                  ＋
+                </div>
               </div>
             </li>
           )}
