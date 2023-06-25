@@ -1,14 +1,22 @@
-const Form = (props) => {
+const Form = ({
+  isEditing,
+  text,
+  onUpdateChange,
+  onUpdateClick,
+  onDeleteClick,
+}) => {
+  const handleUpdateChange = (e) => onUpdateChange(e.target.value);
+
   return (
     <div className="edit-container">
-      {props.isEditable && (
+      {isEditing && (
         <>
           <div>
-            <textarea value={props.text} onChange={props.onUpdateChange} />
+            <textarea value={text} onChange={handleUpdateChange} />
           </div>
           <div className="button-container">
-            <button onClick={props.onUpdateClick}>編集</button>
-            <button onClick={props.onDeleteClick}>削除</button>
+            <button onClick={onUpdateClick}>編集</button>
+            <button onClick={onDeleteClick}>削除</button>
           </div>
         </>
       )}

@@ -20,16 +20,12 @@ code {
   justify-content: space-between;
 }
 
-.todo-container {
-  width: 50%;
-}
-
-.todo-container ul {
+.memo-container ul {
   margin: 20px;
   padding-left: 0;
 }
 
-.todo-container li {
+.memo-container li {
   color: #fcecec;
   font-size: 24px;
   font-weight: bold;
@@ -38,20 +34,17 @@ code {
   padding: 4px;
 }
 
-.todo-container button {
-  cursor: pointer;
-  background: none;
-  padding: 0;
-  color: #fcecec;
-  border: none;
-  font-size: 24px;
-  font-weight: bold;
-  text-decoration: underline;
-  text-align: start;
+.memo-container li:last-child button {
+  text-decoration: none;
 }
 
-.todo-container li:last-child button {
-  text-decoration: none;
+.memo-button {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.add-button {
+  cursor: pointer;
 }
 
 .edit-container {
