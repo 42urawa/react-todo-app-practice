@@ -13,7 +13,7 @@ const useMemos = () => {
     localStorage.setItem("todos", JSON.stringify(memos));
   };
 
-  const customCreate = () => {
+  const handleCreate = () => {
     const maxId = memos.length
       ? Math.max(...memos.map((memo) => memo.id)) + 1
       : 0;
@@ -24,7 +24,7 @@ const useMemos = () => {
     saveToLocalStorage(newMemos);
   };
 
-  const customEdit = (memoId) => {
+  const handleEdit = (memoId) => {
     const targetMemo = memos.find((memo) => memo.id === memoId);
     const updatedMemos = memos.map((memo) => ({
       ...memo,
@@ -34,7 +34,7 @@ const useMemos = () => {
     setMemos(updatedMemos);
   };
 
-  const customUpdate = () => {
+  const handleUpdate = () => {
     if (!text) return;
     const editedMemos = memos.map((memo) =>
       memo.isEditing ? { ...memo, content: text, isEditing: false } : memo
@@ -44,7 +44,7 @@ const useMemos = () => {
     saveToLocalStorage(editedMemos);
   };
 
-  const customDelete = () => {
+  const handleDelete = () => {
     const deletedMemos = memos.filter((memo) => !memo.isEditing);
     setMemos(deletedMemos);
     saveToLocalStorage(deletedMemos);
@@ -54,10 +54,10 @@ const useMemos = () => {
     text,
     setText,
     memos,
-    customCreate,
-    customEdit,
-    customUpdate,
-    customDelete,
+    handleCreate,
+    handleEdit,
+    handleUpdate,
+    handleDelete,
   };
 };
 

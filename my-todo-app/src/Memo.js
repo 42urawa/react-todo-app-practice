@@ -4,7 +4,7 @@ const Memo = ({ memo, onEditClick }) => (
       <div>{memo.content.split("\n")[0]}</div>
     ) : (
       <>
-        <div onClick={onEditClick} className="memo-button">
+        <div onClick={() => onEditClick(memo.id)} className="memo-button">
           {memo.content.split("\n")[0]}
         </div>
       </>
