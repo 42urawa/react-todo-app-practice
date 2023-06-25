@@ -1,52 +1,23 @@
 import "./App.css";
-import Todo from "./Todo.js";
+import Memo from "./Memo.js";
 import Form from "./Form.js";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+import useMemos from "./useMemos";
 
 const App = () => {
-  const [text, setText] = useState("");
-  const [todos, setTodos] = useState(
-    JSON.parse(localStorage.getItem("todos")) || []
-  );
-
-  const handleCreate = () => {
-    const maxId = todos.length ? Math.max(...todos.map((todo) => todo.id)) : 0;
-    setText("新規メモ");
-    setTodos([
-      ...todos,
-      { id: maxId + 1, content: "新規メモ", isEditing: true },
-    ]);
-  };
-
-  const handleEdit = (todoId) => {
-    const targetTodo = todos.find((todo) => todo.id === todoId);
-    const editedTodos = todos.map((todo) => ({
-      ...todo,
-      isEditing: todo.id === todoId,
-    }));
-    setText(targetTodo.content);
-    setTodos(editedTodos);
-  };
-
-  const handleUpdate = () => {
-    if (!text) return;
-    const editedTodos = todos.map((todo) =>
-      todo.isEditing ? { ...todo, content: text, isEditing: false } : todo
-    );
-    setText("");
-    setTodos(editedTodos);
-    localStorage.setItem("todos", JSON.stringify(editedTodos));
-  };
-
-  const handleDelete = () => {
-    const deletedTodos = todos.filter((todo) => !todo.isEditing);
-    setTodos(deletedTodos);
-    localStorage.setItem("todos", JSON.stringify(deletedTodos));
-  };
+  const {
+    text,
+    setText,
+    memos,
+    customCreate,
+    customEdit,
+    customUpdate,
+    customDelete,
+  } = useMemos();
 
   return (
     <>
-      <div className="todo-container">
+      <div className="memo-container">
         {/* <button
           onClick={() => {
             localStorage.removeItem("todos");
@@ -54,25 +25,25 @@ const App = () => {
         >
           リセットボタン
         </button> */}
-        {/* <button
+        <button
           onClick={() => {
             window.alert(localStorage.getItem("todos"));
           }}
         >
           状態確認ボタン
-        </button> */}
+        </button>
         <ul>
-          {todos.map((todo) => (
-            <Todo
-              key={todo.id}
-              todo={todo}
-              onEditClick={() => handleEdit(todo.id)}
+          {memos.map((memo) => (
+            <Memo
+              key={memo.id}
+              memo={memo}
+              onEditClick={() => customEdit(memo.id)}
             />
           ))}
-          {todos.every((todo) => !todo.isEditing) && (
+          {memos.every((memo) => !memo.isEditing) && (
             <li>
               <div>
-                <div onClick={handleCreate} className="add-button">
+                <div onClick={customCreate} className="add-button">
                   ＋
                 </div>
               </div>
@@ -81,11 +52,11 @@ const App = () => {
         </ul>
       </div>
       <Form
-        isEditing={todos.some((todo) => todo.isEditing)}
+        isEditing={memos.some((memo) => memo.isEditing)}
         text={text}
         onUpdateChange={setText}
-        onUpdateClick={handleUpdate}
-        onDeleteClick={handleDelete}
+        onUpdateClick={customUpdate}
+        onDeleteClick={customDelete}
       />
     </>
   );

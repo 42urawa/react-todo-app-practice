@@ -20,16 +20,16 @@ code {
   justify-content: space-between;
 }
 
-.todo-container {
+.memo-container {
   width: 50%;
 }
 
-.todo-container ul {
+.memo-container ul {
   margin: 20px;
   padding-left: 0;
 }
 
-.todo-container li {
+.memo-container li {
   color: #fcecec;
   font-size: 24px;
   font-weight: bold;
@@ -38,11 +38,11 @@ code {
   padding: 4px;
 }
 
-.todo-container li:last-child button {
+.memo-container li:last-child button {
   text-decoration: none;
 }
 
-.todo-button {
+.memo-button {
   text-decoration: underline;
   cursor: pointer;
 }
